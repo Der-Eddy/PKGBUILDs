@@ -53,7 +53,7 @@ kernel_setup() {
 
 readonly DIR=/home/eddy/cache/linux-tkg
 
-git clone https://github.com/Tk-Glitch/PKGBUILDS.git "$DIR"
+git clone https://github.com/Frogging-Family/linux-tkg.git "$DIR"
 cd "$DIR"
 
 # Build
