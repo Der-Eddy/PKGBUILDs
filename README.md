@@ -8,11 +8,11 @@ Building Scripts
 -------------
 
 These will build packages for my unofficial Arch Linux repository located at https://archlinux.eddy-dev.net  
-The package database is managed by [repoctl](https://github.com/cassava/repoctl)
+The package database is managed by [repoctl](https://github.com/cassava/repoctl).
 
 Mainly located in `build.sh` will create a clean chroot environment, install needed tools and build a package based on PKGBUILD files. Finally it will update the repository databse with `repoctl update`
 
-`build-tkg.sh` will build custom linux kernel based on the [tkg kernel by TK-Glitch](https://github.com/Frogging-Family/linux-tkg)
+`build-tkg.sh` will build custom linux kernel based on the [tkg kernel by TK-Glitch](https://github.com/Frogging-Family/linux-tkg) for skylake/kabylake and zen/zen+ CPUs.
 
 System configs
 -------------
