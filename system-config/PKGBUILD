@@ -1,0 +1,58 @@
+pkgbase=system-config
+pkgname=(system-config)
+pkgver=1
+pkgrel=1
+
+pkgdesc='system configurations'
+url='https://github.com/Der-Eddy'
+arch=('any')
+license=('MIT')
+
+source=('cleanup.hook'
+        'etc-locale.conf'
+        'etc-vconsole.conf'
+        'reflector.conf'
+        'reflector.service'
+        'reflector.timer'
+        'system-sudoers')
+
+package_system-config() {
+    pkgdesc='common system configurations'
+    depends=('zsh'
+             'sudo'
+             'htop'
+             'grml-zsh-config'
+             'zsh-autosuggestions'
+             'zsh-completions'
+             'less'
+             'nano'
+             'neovim'
+             'man-db'
+             'man-pages'
+             'which'
+             'git'
+             'tmux'
+             'pacman-contrib'
+             'reflector')
+
+    install -dm0750 "$pkgdir"/etc/sudoers.d
+    install -Dm0644 system-sudoers "$pkgdir"/etc/sudoers.d/10-system
+    install -Dm0644 etc-locale.conf "$pkgdir"/etc/locale.conf
+    install -Dm0644 etc-vconsole.conf "$pkgdir"/etc/vconsole.conf
+    install -Dm0644 cleanup.hook "$pkgdir/usr/share/libalpm/hooks/cleanup.hook"
+
+    install -Dm0644 reflector.service "$pkgdir/usr/lib/systemd/system/reflector.service"
+    install -Dm0644 reflector.timer "$pkgdir/usr/lib/systemd/system/reflector.timer"
+    install -Dm0644 reflector.conf "$pkgdir/usr/share/reflector-timer/reflector.conf"
+
+    ln -sf /usr/share/zoneinfo/Europe/Berlin "$pkgdir"/etc/localtime
+}
+
+
+sha256sums=('2b901834aef2839e4ec4e6bcd5d0f0f75112eaff66f5f7772e040a2bb8fb417d'
+            'ae110460f2be56a12ac338afa5a44b6233b832d69c6a6bc7c3e92eb518b9cc57'
+            '048f61729e69f55e1809b208b5f50da9a9e920dd76709dec1cd86160fdce9158'
+            '841015fa47bf501bf9f620ec793195bfc643da4b065a458d47c1727b39542606'
+            '8de11f179bcf67fe866d92af50093bad500dd2aac7d8c56f9babefddc85e406c'
+            'e4196db020a6dd0bfbb10252fcce450e8e6d64b13b5777b6d014c186d017ee63'
+            '053e38a80a8162450b9e145c119b9cee0385a869b26d24bb3f681bff78137592')
