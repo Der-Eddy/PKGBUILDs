@@ -3,6 +3,7 @@
 
 This repository consists of two major parts: Arch building scripts and my system config in `system-config` which can be build into a package to pull dependencies I want.  
 Everything is only tested on Arch Linux.
+Packages are build with `-march=x86-64-v3` for better performance, but will only work with CPUs which are as old as Intel Haswell or newer.
 
 Building Scripts
 -------------
