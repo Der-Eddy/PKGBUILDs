@@ -13,12 +13,15 @@ The package database is managed by [repoctl](https://github.com/cassava/repoctl)
 
 There are several building scripts available:
     
- - `build.sh` will create a clean chroot environment, install needed tools and build **one** package based on PKGBUILD files.
- - `build-dep.sh` will take one argument i.e. `./build-dep.sh jekyll` and will build all dependencies from the AUR which are needed based on a `build-order.txt` file
- - `update-all.sh` will update all potential updates from the AUR based on a `build-order.txt` file determined by repoctl in one loop, you can check updates beforehand via `repoctl status -a`
+ - `ebs.sh build` will take one argument i.e. `./ebs.sh build jekyll` and will build all dependencies from the AUR which are needed based on a `build-order.txt` file
+ - `ebs.sh update` will update all potential updates from the AUR based on a `build-order.txt` file determined by repoctl in one loop, you can check updates beforehand via `repoctl status -a`
  - `build-tkg.sh` will build custom linux kernel based on the [tkg kernel by TK-Glitch](https://github.com/Frogging-Family/linux-tkg) for skylake/kabylake and zen/zen+ CPUs.
 
 Finally all of them will update the repository databse with `repoctl update`
+
+The build script will send notification via [ntfy.sh](https://ntfy.sh/) and the ntfy server and topic can be adjusted with the variable in ebs.sh
+
+    readonly NTFY=https://ntfy.sh/archlinux-building
 
 System configs
 -------------
