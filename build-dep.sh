@@ -1,19 +1,40 @@
 #!/bin/bash
 set -e
 
-CHROOT=/home/eddy/chroot
-SRCDIR=/home/eddy/cache
+readonly CHROOT=/home/eddy/chroot
+readonly SRCDIR=/home/eddy/cache
+readonly NTFY=https://ntfy.sh/archlinux-building
 
-repoctl down -o build-order.txt -r $1
+if [ "$1" == "build" ];
+then
+        repoctl down -o build-order.txt -r $2
+elif [ "$1" == "update" ];
+then
+        repoctl down -u -o build-order.txt
+fi
 for pkg in $(cat build-order.txt); do
     (
+        if [ "$pkg" == "esphome" ];
+        then
+            pkg="esphomeyaml"
+        fi
+        if [ "$pkg" == "czkawka-cli" ] || [ "$pkg" == "czkawka-gui" ];
+        then
+            pkg="czkawka"
+        fi
+        curl -H "Title: 🔨 Building $pkg" -d "ongoing ..." $NTFY
         cd "$pkg"
         arch-nspawn $CHROOT/root pacman --noconfirm --needed -Syu
-        makechrootpkg -c -r $CHROOT -- --noconfirm --needed --syncdeps --skipinteg
+        if makechrootpkg -c -r $CHROOT -- --noconfirm --needed --syncdeps --skipinteg
+        then
+        repolog=$( repoctl update )
+        curl -H "Title: ✔️ Finished $pkg" -d "$repolog" $NTFY
+        echo $repolog
+        else
+        curl -H "Title: ❌ Failed $pkg" -d "log" $NTFY
+        fi
         cd ..
         rm -rf "$pkg"
-        repoctl update
     )
 done
 rm build-order.txt
- 
