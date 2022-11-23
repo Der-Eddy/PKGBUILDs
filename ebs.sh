@@ -16,7 +16,7 @@ for pkg in $(cat build-order.txt); do
     (
         if [ "$pkg" == "esphome" ];
         then
-            pkg="esphomeyaml"
+            git clone https://aur.archlinux.org/esphomeyaml.git "$SRCDIR/esphome"
         fi
         if [ "$pkg" == "czkawka-cli" ] || [ "$pkg" == "czkawka-gui" ];
         then
@@ -34,6 +34,10 @@ for pkg in $(cat build-order.txt); do
         curl -H "Title: ❌ Failed $pkg" -d "log" $NTFY
         fi
         cd ..
+        if [ "$pkg" == "esphome" ];
+        then
+            rm -rf "$SRCDIR/esphome"
+        fi
         rm -rf "$pkg"
     )
 done
